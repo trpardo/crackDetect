@@ -1,0 +1,97 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'org.jlleitschuh.gradle.ktlint'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    def versionMajor = 1
+    def versionMinor = 0
+    def versionPatch = 0
+    def versionCount = 1
+
+    namespace 'com.pardo.crackdetect'
+    compileSdk compile_sdk
+
+    defaultConfig {
+        applicationId "com.pardo.crackdetect"
+        minSdk min_sdk
+        targetSdk target_sdk
+        versionCode versionCount
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility java_version
+        targetCompatibility java_version
+    }
+    buildFeatures {
+        compose true
+        viewBinding true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_compiler_version
+    }
+    kotlinOptions {
+        jvmTarget = jvm_target
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    lint {
+        lintConfig file('../config/lint.xml')
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':theme')
+    implementation project(':components')
+    implementation project(':features:analysis')
+
+    implementation "androidx.core:core-ktx:$androidx_core"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle"
+    implementation "androidx.activity:activity-compose:$activity_compose"
+    implementation platform("androidx.compose:compose-bom:$compose_version")
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-graphics"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    implementation "androidx.compose.material3:material3"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // Test
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$test_espresso"
+    androidTestImplementation platform("androidx.compose:compose-bom:$compose_version")
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+
+    // Debug
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+}

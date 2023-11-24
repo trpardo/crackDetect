@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Crack Detect</string>
+    <string name="app_greeting_title">Welcome to Crack Analyser</string>
+    <string name="app_greeting_subtitle">Your instant structural integrity advisor!</string>
+    <string name="app_button_start">Start</string>
+    <string name="app_button_accept">Accept</string>
+    <string name="app_button_cancel">Cancel</string>
+    <string name="app_button_ok">OK</string>
+    <string name="app_button_retry">Try again</string>
+    <string name="app_button_settings">Go to settings</string>
+    <string name="app_permission_request_camera_title">Camera Permission Required</string>
+    <string name="app_permission_request_camera_rationale_text">"We need camera access to analyze structural cracks. Please grant camera permission to continue using this feature."</string>
+    <string name="app_permission_request_camera_settings_text">Camera permission is required for this feature. Please grant the permission in the app settings.</string>
+    <string name="app_welcome_step1_title">Snap a Photo</string>
+    <string name="app_welcome_step1_description">Take a photo of the crack that concerns you, and our app will assist you in capturing the ideal shot.</string>
+    <string name="app_welcome_step2_title">Instant Analysis</string>
+    <string name="app_welcome_step2_description">Upon image upload, our AI quickly analyzes the crack\'s severity in detail.</string>
+    <string name="app_welcome_step3_title">Get Results</string>
+    <string name="app_welcome_step3_description">Get instant feedback on whether the crack is cosmetic or needs further attention.</string>
+    <string name="app_analysis_instructions_toolbar">Capture crack</string>
+    <string name="app_analysis_instructions_title">Guide to a Perfect Shot</string>
+    <string name="app_analysis_instructions_step1_title">Ensure Good Lighting</string>
+    <string name="app_analysis_instructions_step1_description">Ensure even lighting without glare; natural light is ideal, otherwise use a steady light source.</string>
+    <string name="app_analysis_instructions_step2_title">Focus and Steady Your Camera</string>
+    <string name="app_analysis_instructions_step2_description">Steady the camera, focus clearly on the crack, and use macro mode for close-ups.</string>
+    <string name="app_analysis_instructions_step3_title">Capture the Entire Crack</string>
+    <string name="app_analysis_instructions_step3_description">Include the entire length and surroundings of the crack in the frame to provide context. Take the photo straight on and avoid angles for accurate analysis.</string>
+</resources>
