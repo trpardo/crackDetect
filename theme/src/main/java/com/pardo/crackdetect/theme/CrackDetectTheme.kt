@@ -20,8 +20,8 @@ import androidx.core.view.WindowCompat
 fun CrackDetectTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit) {
-
+    content: @Composable () -> Unit
+) {
     CompositionLocalProvider(
         localTypographySystem provides typography(),
         localDimenSystem provides dimen(),

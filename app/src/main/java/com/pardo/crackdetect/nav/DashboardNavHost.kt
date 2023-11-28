@@ -6,10 +6,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.pardo.crackdetect.analysis.nav.AnalysisDirections
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.analysis.nav.analysisGraph
 import com.pardo.crackdetect.analysis.ui.AnalysisInstructionsScreen
 import com.pardo.crackdetect.components.ScreenContainer
+import com.pardo.crackdetect.core.utils.ViewModelUtils
 import com.pardo.crackdetect.ui.WelcomeScreen
 
 @Composable
@@ -25,20 +27,26 @@ fun DashboardNavHost(
         NavHost(
             modifier = Modifier.fillMaxSize(),
             navController = navController,
-            startDestination = DashBoardDirections.Initial.route,
-            route = DashBoardDirections.Root.route
+            startDestination = DashboardDirections.Initial.route,
+            route = DashboardDirections.Root.route
         ) {
-            composable(route = DashBoardDirections.Initial.route) {
+            composable(route = DashboardDirections.Initial.route) {
                 WelcomeScreen(navigator = dashboardNavigator)
             }
 
-            composable(route = DashBoardDirections.Analysis.route) {
-                AnalysisInstructionsScreen(analysisNavigator)
+            composable(route = AnalysisDirections.Analysis.route) {
+                AnalysisInstructionsScreen(
+                    viewModel = ViewModelUtils.viewModelFromRoute(
+                        navController = navController,
+                        navHostRoute = AnalysisDirections.Analysis.route
+                    ),
+                    navigator = analysisNavigator
+                )
             }
 
             analysisGraph(
                 navigator = analysisNavigator,
-                navHostRoute = DashBoardDirections.Root.route
+                navHostRoute = AnalysisDirections.Analysis.route
             )
         }
     }

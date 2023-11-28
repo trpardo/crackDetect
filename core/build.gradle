@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'org.jlleitschuh.gradle.ktlint'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -53,12 +54,21 @@ dependencies {
     implementation "androidx.compose.ui:ui-graphics"
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.material3:material3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    // Ktor
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_android_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_android_version"
+    implementation "io.ktor:ktor-client-json:$ktor_version"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_android_version"
+    implementation "io.ktor:ktor-client-logging-jvm:$ktor_android_version"
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

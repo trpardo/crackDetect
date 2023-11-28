@@ -1,6 +1,9 @@
 package com.pardo.crackdetect.analysis.ui
 
 import android.content.res.Configuration
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,17 +11,22 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
+import com.pardo.crackdetect.analysis.AnalysisViewModel
+import com.pardo.crackdetect.analysis.AnalysisViewState
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.components.Buttons
-import com.pardo.crackdetect.components.CameraPermissionRequest
 import com.pardo.crackdetect.components.ScreenContainer
 import com.pardo.crackdetect.components.StepItem
 import com.pardo.crackdetect.components.StepsList
@@ -27,11 +35,21 @@ import com.pardo.crackdetect.components.Toolbar
 import com.pardo.crackdetect.theme.CrackDetectTheme
 import com.pardo.crackdetect.theme.R
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AnalysisInstructionsScreen(
+    viewModel: AnalysisViewModel = hiltViewModel(),
     navigator: AnalysisNavigator? = null
 ) {
-    var showPermissionRequest by remember { mutableStateOf(false) }
+    val cameraPermission = cameraPermissionState()
+    viewModel.navigator = navigator
+
+    val viewState = viewModel.viewState.collectAsState()
+
+    val launcherForImageCapture = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview(),
+        onResult = viewModel::saveImage
+    )
 
     ScreenContainer(
         topBar = {
@@ -41,7 +59,11 @@ fun AnalysisInstructionsScreen(
             )
         },
         content = {
-            InstructionsContent(paddingValues = it)
+            when (viewState.value) {
+                AnalysisViewState.Initial -> InstructionsContent(paddingValues = it)
+                is AnalysisViewState.CaptureImage -> navigator?.openPhotoSelector()
+                else -> {}
+            }
         },
         bottomBar = {
             Box(
@@ -51,24 +73,23 @@ fun AnalysisInstructionsScreen(
             ) {
                 Buttons.Filled(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.app_button_start),
-                    onClick = { showPermissionRequest = true }
+                    text = stringResource(id = R.string.app_analysis_instructions_button),
+                    onClick = {
+                        when (cameraPermission.status) {
+                            is PermissionStatus.Denied -> cameraPermission.launchPermissionRequest()
+                            PermissionStatus.Granted -> launcherForImageCapture.launch()
+                        }
+                    }
                 )
             }
         }
     )
+}
 
-    if (showPermissionRequest) {
-        CameraPermissionRequest(
-            onPermissionGranted = {
-                showPermissionRequest = false
-                navigator?.openPhotoSelector()
-            },
-            onPermissionDenied = {
-                showPermissionRequest = false
-            }
-        )
-    }
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun cameraPermissionState(): PermissionState {
+    return rememberPermissionState(permission = android.Manifest.permission.CAMERA)
 }
 
 @Composable

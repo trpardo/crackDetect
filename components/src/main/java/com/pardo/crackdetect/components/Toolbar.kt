@@ -70,7 +70,7 @@ object Toolbar {
             modifier = Modifier.fillMaxWidth(),
             navigationIcon = {
                 imageVector?.let {
-                    IconButton(onClick = onClick ) {
+                    IconButton(onClick = onClick) {
                         Icon(imageVector = imageVector, contentDescription = description)
                     }
                 }

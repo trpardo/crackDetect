@@ -1,7 +1,6 @@
 package com.pardo.crackdetect.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,7 +23,7 @@ fun StepsList(
                 Column {
                     Titles.SimpleTitle(text = "${index + 1}. ${item.title} ")
                     Titles.SimpleDescription(text = item.description)
-                    if (index <= items.size -1 ) {
+                    if (index <= items.size - 1) {
                         Spacer(modifier = Modifier.height(CrackDetectTheme.Spacing.M))
                     }
                 }

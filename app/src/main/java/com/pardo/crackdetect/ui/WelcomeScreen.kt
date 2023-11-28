@@ -71,7 +71,6 @@ private fun WelcomeHeader() {
             contentScale = ContentScale.Crop
         )
     }
-
 }
 
 @Composable
@@ -99,7 +98,7 @@ private fun WelcomeContent(modifier: Modifier) {
                 StepItem(
                     title = stringResource(id = R.string.app_welcome_step3_title),
                     description = stringResource(id = R.string.app_welcome_step3_description)
-                ),
+                )
             )
         )
     }

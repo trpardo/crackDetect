@@ -15,7 +15,7 @@ class DashboardNavigatorImpl(
 ) : DashboardNavigator {
     override fun startAnalysis(popUpToRoute: String?) {
         super.navigate(
-            dst = DashBoardDirections.Analysis,
+            dst = AnalysisDirections.Analysis,
             popUpToRoute = popUpToRoute
         )
     }

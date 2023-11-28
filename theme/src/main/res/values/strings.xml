@@ -25,4 +25,7 @@
     <string name="app_analysis_instructions_step2_description">Steady the camera, focus clearly on the crack, and use macro mode for close-ups.</string>
     <string name="app_analysis_instructions_step3_title">Capture the Entire Crack</string>
     <string name="app_analysis_instructions_step3_description">Include the entire length and surroundings of the crack in the frame to provide context. Take the photo straight on and avoid angles for accurate analysis.</string>
+    <string name="app_analysis_instructions_button">Take a photo</string>
+    <string name="app_analysis_camera_toolbar">Your photo</string>
+    <string name="app_analysis_camera_button">Analyse it!</string>
 </resources>

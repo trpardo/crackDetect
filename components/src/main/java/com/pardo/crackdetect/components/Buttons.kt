@@ -37,7 +37,7 @@ object Buttons {
             text = text,
             onClick = onClick,
             enabled = enabled,
-            shape = RoundedCornerShape(10),
+            shape = RoundedCornerShape(10)
         )
     }
 
@@ -86,7 +86,7 @@ object Buttons {
                 androidx.compose.material3.Icon(
                     modifier = Modifier.size(CrackDetectTheme.Dimen.Icon),
                     painter = painterResource(id = iconResId),
-                    contentDescription = description,
+                    contentDescription = description
                 )
             },
             enabled = enabled

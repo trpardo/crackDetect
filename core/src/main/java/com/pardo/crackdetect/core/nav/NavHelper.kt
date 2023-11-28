@@ -57,7 +57,7 @@ data class NavigationArg<out T>(
 sealed class TypeNavParam<T>(
     val id: String,
     val type: NavType<T>,
-    val code: String,
+    val code: String = "/",
     val defaultValue: T? = null
 ) {
     override fun equals(other: Any?): Boolean {

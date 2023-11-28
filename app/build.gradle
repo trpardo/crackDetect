@@ -33,6 +33,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility java_version
@@ -60,6 +64,7 @@ android {
 
 dependencies {
     implementation project(':core')
+    implementation project(':data')
     implementation project(':theme')
     implementation project(':components')
     implementation project(':features:analysis')

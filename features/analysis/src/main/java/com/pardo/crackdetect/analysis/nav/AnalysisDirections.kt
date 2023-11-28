@@ -2,13 +2,12 @@ package com.pardo.crackdetect.analysis.nav
 
 import com.pardo.crackdetect.core.nav.NavDestination
 
-
 sealed class AnalysisDirections {
     object Root : NavDestination(dst = "analysis_root")
 
-    object PhotoSelector: NavDestination(dst = "analysis_photo")
+    object Analysis : NavDestination(dst = "analysis")
 
-    object ExtraInfoSurvey : NavDestination(dst = "analysis_survey")
+    object PhotoSelector : NavDestination(dst = "analysis_photo")
 
-    object AnalysisResult: NavDestination(dst = "analysis_result")
+    object AnalysisResult : NavDestination(dst = "analysis_result")
 }

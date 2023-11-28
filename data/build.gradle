@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'org.jlleitschuh.gradle.ktlint'
+    id 'kotlinx-serialization'
+}
+
+def properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+def apiKey = properties.getProperty("apiKey") ?: "defaultApiKey"
+
+android {
+    namespace 'com.pardo.crackdetect.data'
+    compileSdk compile_sdk
+    buildToolsVersion build_tools
+
+    defaultConfig {
+        minSdk min_sdk
+        targetSdk target_sdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            android.buildFeatures.buildConfig = true
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            android.buildFeatures.buildConfig = true
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility java_version
+        targetCompatibility java_version
+    }
+    kotlinOptions {
+        jvmTarget = jvm_target
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_compiler_version
+    }
+    lint {
+        lintConfig file('../config/lint.xml')
+    }
+}
+
+dependencies {
+    implementation project(':core')
+
+    implementation "androidx.core:core-ktx:$androidx_core"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle"
+    implementation "androidx.activity:activity-compose:$activity_compose"
+    implementation platform("androidx.compose:compose-bom:$compose_version")
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-graphics"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    implementation "androidx.compose.material3:material3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
+
+    // Ktor
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-android:$ktor_android_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_android_version"
+    implementation "io.ktor:ktor-client-json:$ktor_version"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_android_version"
+    implementation "io.ktor:ktor-client-logging-jvm:$ktor_android_version"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // Test
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$test_espresso"
+    androidTestImplementation platform("androidx.compose:compose-bom:$compose_version")
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+
+    // Debug
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+}

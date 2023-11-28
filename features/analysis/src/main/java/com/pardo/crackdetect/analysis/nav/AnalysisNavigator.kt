@@ -6,9 +6,7 @@ import com.pardo.crackdetect.core.nav.NavigationBridge
 
 interface AnalysisNavigator : BaseNavigator {
     fun openPhotoSelector(popUpToRoute: String? = null)
-    fun openSurvey(popUpToRoute: String? = null)
     fun openResult(popUpToRoute: String? = null)
-
 }
 
 class AnalysisNavigatorImpl(
@@ -18,13 +16,6 @@ class AnalysisNavigatorImpl(
     override fun openPhotoSelector(popUpToRoute: String?) {
         super.navigate(
             dst = AnalysisDirections.PhotoSelector,
-            popUpToRoute = popUpToRoute
-        )
-    }
-
-    override fun openSurvey(popUpToRoute: String?) {
-        super.navigate(
-            dst = AnalysisDirections.ExtraInfoSurvey,
             popUpToRoute = popUpToRoute
         )
     }
