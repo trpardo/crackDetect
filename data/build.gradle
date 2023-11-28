@@ -6,10 +6,6 @@ plugins {
     id 'kotlinx-serialization'
 }
 
-def properties = new Properties()
-properties.load(project.rootProject.file("local.properties").newDataInputStream())
-def apiKey = properties.getProperty("apiKey") ?: "defaultApiKey"
-
 android {
     namespace 'com.pardo.crackdetect.data'
     compileSdk compile_sdk
@@ -25,14 +21,10 @@ android {
 
     buildTypes {
         release {
-            android.buildFeatures.buildConfig = true
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            android.buildFeatures.buildConfig = true
-            buildConfigField("String", "API_KEY", "\"$apiKey\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

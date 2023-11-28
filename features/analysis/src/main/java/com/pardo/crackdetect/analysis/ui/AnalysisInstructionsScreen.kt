@@ -1,9 +1,6 @@
 package com.pardo.crackdetect.analysis.ui
 
 import android.content.res.Configuration
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +8,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +18,6 @@ import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.pardo.crackdetect.analysis.AnalysisViewModel
-import com.pardo.crackdetect.analysis.AnalysisViewState
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.components.Buttons
 import com.pardo.crackdetect.components.ScreenContainer
@@ -44,13 +37,6 @@ fun AnalysisInstructionsScreen(
     val cameraPermission = cameraPermissionState()
     viewModel.navigator = navigator
 
-    val viewState = viewModel.viewState.collectAsState()
-
-    val launcherForImageCapture = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview(),
-        onResult = viewModel::saveImage
-    )
-
     ScreenContainer(
         topBar = {
             Toolbar.Nav(
@@ -59,11 +45,7 @@ fun AnalysisInstructionsScreen(
             )
         },
         content = {
-            when (viewState.value) {
-                AnalysisViewState.Initial -> InstructionsContent(paddingValues = it)
-                is AnalysisViewState.CaptureImage -> navigator?.openPhotoSelector()
-                else -> {}
-            }
+            InstructionsContent(paddingValues = it)
         },
         bottomBar = {
             Box(
@@ -77,7 +59,7 @@ fun AnalysisInstructionsScreen(
                     onClick = {
                         when (cameraPermission.status) {
                             is PermissionStatus.Denied -> cameraPermission.launchPermissionRequest()
-                            PermissionStatus.Granted -> launcherForImageCapture.launch()
+                            PermissionStatus.Granted -> navigator?.openPhotoSelector()
                         }
                     }
                 )

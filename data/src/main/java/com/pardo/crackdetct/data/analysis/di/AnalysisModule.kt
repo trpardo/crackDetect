@@ -5,6 +5,7 @@ import com.pardo.crackdetct.data.analysis.AnalysisDataSource
 import com.pardo.crackdetct.data.analysis.AnalysisDataSourceImpl
 import com.pardo.crackdetct.data.analysis.AnalysisUseCase
 import com.pardo.crackdetct.data.analysis.AnalysisUseCaseImpl
+import com.pardo.crackdetect.core.di.ApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +19,9 @@ class AnalysisModule {
     @ViewModelScoped
     @Provides
     fun providesAnalysisApi(
-        networkClient: HttpClient
-    ): AnalysisApi = AnalysisApi(networkClient)
+        networkClient: HttpClient,
+        @ApiKey apiKey: String
+    ): AnalysisApi = AnalysisApi(networkClient, apiKey)
 
     @ViewModelScoped
     @Provides

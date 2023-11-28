@@ -8,6 +8,8 @@
     <string name="app_button_ok">OK</string>
     <string name="app_button_retry">Try again</string>
     <string name="app_button_settings">Go to settings</string>
+    <string name="app_dialog_error_title">Connection Error</string>
+    <string name="app_dialog_error_description">Sorry, there was an issue communicating with the server. Please try again later</string>
     <string name="app_permission_request_camera_title">Camera Permission Required</string>
     <string name="app_permission_request_camera_rationale_text">"We need camera access to analyze structural cracks. Please grant camera permission to continue using this feature."</string>
     <string name="app_permission_request_camera_settings_text">Camera permission is required for this feature. Please grant the permission in the app settings.</string>
@@ -28,4 +30,10 @@
     <string name="app_analysis_instructions_button">Take a photo</string>
     <string name="app_analysis_camera_toolbar">Your photo</string>
     <string name="app_analysis_camera_button">Analyse it!</string>
+    <string name="app_analysis_result_toolbar">Result</string>
+    <string name="app_analysis_result_title">Diagnostic Results</string>
+    <string name="app_analysis_result_type">Type of crack:</string>
+    <string name="app_analysis_result_severity">Severity of the crack:</string>
+    <string name="app_analysis_result_description">About:</string>
+    <string name="app_analysis_result_disclaimer">This information is provided for general understanding and awareness only. We encourage you to consult a specialist.</string>
 </resources>

@@ -3,12 +3,10 @@ package com.pardo.crackdetect.analysis
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pardo.crackdetct.data.analysis.AnalysisUseCase
-import com.pardo.crackdetct.data.analysis.CrackAnalysisDomainModel
+import com.pardo.crackdetct.data.analysis.models.CrackAnalysisDomainModel
 import com.pardo.crackdetect.analysis.nav.AnalysisDirections
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.core.network.Failure
@@ -32,24 +30,15 @@ class AnalysisViewModel @Inject constructor(
         MutableStateFlow(AnalysisViewState.Initial)
     val viewState: StateFlow<AnalysisViewState> get() = _viewState
 
-    fun saveImage(bitmap: Bitmap?) {
-        bitmap?.let {
-            val updatedForm = viewState.value.form.copy(
-                image = bitmap
-            )
-            _viewState.value = AnalysisViewState.CaptureImage(updatedForm)
-        }
-    }
-
-    fun startAnalyseImage() {
-        _viewState.value = AnalysisViewState.AnalyseImage(form = viewState.value.form)
-        navigator?.openResult(popUpToRoute = AnalysisDirections.Analysis.route)
+    fun onTakePhoto(bitmap: Bitmap) {
+        val updatedForm = viewState.value.form.copy(image = bitmap)
+        _viewState.value = AnalysisViewState.CaptureImage(updatedForm)
     }
 
     fun analyseImage() {
         _viewState.value = AnalysisViewState.Loading(form = viewState.value.form)
         viewModelScope.launch {
-            analysisUseCase.analyseImage(viewState.value.form.imageBase64).fold(
+            analysisUseCase.analyseImage(viewState.value.form.image.toBase64()).fold(
                 foldFailure = ::onAnalysisImageFailure,
                 foldSuccess = ::onAnalysisImageSuccess
             )
@@ -58,6 +47,7 @@ class AnalysisViewModel @Inject constructor(
 
     private fun onAnalysisImageSuccess(response: CrackAnalysisDomainModel) {
         _viewState.value = AnalysisViewState.ResultSuccess(form = viewState.value.form)
+        navigator?.openResult(popUpToRoute = AnalysisDirections.Analysis.route)
     }
 
     private fun onAnalysisImageFailure(error: Failure) {
@@ -65,6 +55,10 @@ class AnalysisViewModel @Inject constructor(
             form = viewState.value.form,
             message = error.cause
         )
+    }
+
+    fun closeErrorDialog() {
+        _viewState.value = AnalysisViewState.CaptureImage(viewState.value.form)
     }
 }
 
@@ -74,15 +68,12 @@ private val placeHolderBitmap: Bitmap = BitmapFactory.decodeResource(
 )
 
 data class AnalysisForm(
-    private val image: Bitmap = placeHolderBitmap,
-    private val analyisis: CrackAnalysisDomainModel? = null
+    val image: Bitmap = placeHolderBitmap,
+    private val analysis: CrackAnalysisDomainModel? = null
 ) {
-    val imageBitmap: ImageBitmap get() = image.asImageBitmap()
-    val imageBase64: String get() = image.toBase64()
-
-    val type: String get() = analyisis?.type ?: ""
-    val severity: String get() = analyisis?.type ?: ""
-    val description: String get() = "esto será la descripción"
+    val type: String get() = analysis?.type ?: "Structural Cracks"
+    val severity: String get() = analysis?.type ?: "Severe"
+    val description: String get() = "The crack runs diagonally across the wall and through the building's architectural details, indicating a possible structural failure"
 }
 
 sealed class AnalysisViewState(
@@ -93,8 +84,6 @@ sealed class AnalysisViewState(
     object Initial : AnalysisViewState(state = State.Initial())
 
     class CaptureImage(form: AnalysisForm) : AnalysisViewState(form = form, state = State.Active())
-
-    class AnalyseImage(form: AnalysisForm) : AnalysisViewState(form = form, state = State.Loading())
 
     class Loading(form: AnalysisForm) : AnalysisViewState(form = form, state = State.Loading())
 

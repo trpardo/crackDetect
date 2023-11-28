@@ -35,7 +35,8 @@ fun NavGraphBuilder.analysisGraph(
                 viewModel = ViewModelUtils.viewModelFromRoute(
                     navController = navigator.navController,
                     navHostRoute = navHostRoute
-                )
+                ),
+                navigator = navigator
             )
         }
     }

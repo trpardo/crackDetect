@@ -2,7 +2,7 @@ buildscript {
     ext {
         compile_sdk = 34
         build_tools = "34.0.0"
-        min_sdk = 26
+        min_sdk = 28
         target_sdk = 34
         jvm_target = '17'
         java_version = JavaVersion.VERSION_17
@@ -14,6 +14,7 @@ buildscript {
         activity_compose = '1.8.0'
 
         accompanist_permissions = '0.32.0'
+        camerax_version = '1.4.0-alpha02'
 
         nav_version = '2.7.4'
         hilt_version = '2.48.1'

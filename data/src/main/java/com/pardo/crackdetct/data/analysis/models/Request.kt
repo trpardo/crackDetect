@@ -11,7 +11,9 @@ import kotlinx.serialization.json.encodeToJsonElement
 data class OpenAIRequest(
     val model: String,
     val messages: List<Message>,
-    val temperature: Double
+    val temperature: Double,
+    @SerialName("max_tokens")
+    val maxTokens: Int
 )
 
 @Serializable

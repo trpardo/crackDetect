@@ -15,6 +15,23 @@ import androidx.core.content.ContextCompat.startActivity
 import com.pardo.crackdetect.theme.R
 
 @Composable
+fun ErrorDialog(
+    onClick: () -> Unit
+) {
+    val showDialog = remember { mutableStateOf(true) }
+    BaseAlertDialog(
+        showDialog = showDialog.value,
+        title = stringResource(id = R.string.app_dialog_error_title),
+        text = stringResource(id = R.string.app_dialog_error_title),
+        confirmButtonText = stringResource(id = R.string.app_button_retry),
+        onConfirm = {
+            onClick.invoke()
+            showDialog.value = false
+        }
+    )
+}
+
+@Composable
 fun CameraPermissionRationaleDialog(
     showDialog: Boolean = true,
     onConfirm: (() -> Unit)?,
