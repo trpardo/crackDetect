@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
@@ -24,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -33,10 +35,12 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.pardo.crackdetect.analysis.AnalysisViewModel
+import com.pardo.crackdetect.analysis.AnalysisViewState
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.components.Buttons
 import com.pardo.crackdetect.components.ErrorDialog
 import com.pardo.crackdetect.components.ImageCaptured
+import com.pardo.crackdetect.components.ProgressBar
 import com.pardo.crackdetect.components.ScreenContainer
 import com.pardo.crackdetect.components.Toolbar
 import com.pardo.crackdetect.theme.CrackDetectTheme
@@ -59,6 +63,13 @@ fun AnalysisCameraScreen(
             )
         },
         content = {
+            when (viewState.value) {
+                is AnalysisViewState.Error -> ErrorDialog(onClick = viewModel::closeErrorDialog)
+                is AnalysisViewState.Loading -> ProgressBar()
+                is AnalysisViewState.ResultSuccess -> navigator?.openResult()
+                else -> {}
+            }
+
             if (showCamera.value) {
                 CameraScreen(onTakePhoto = { bitmap ->
                     viewModel.onTakePhoto(bitmap)
@@ -66,12 +77,9 @@ fun AnalysisCameraScreen(
                 })
             } else {
                 ImageCaptured(
-                    image = viewState.value.form.image,
+                    image = viewState.value.form.image.asImageBitmap(),
                     paddingValues = it
                 )
-            }
-            if (viewState.value.isError) {
-                ErrorDialog(onClick = viewModel::closeErrorDialog)
             }
         },
         bottomBar = {
@@ -84,7 +92,8 @@ fun AnalysisCameraScreen(
                     Buttons.Filled(
                         modifier = Modifier.fillMaxWidth(),
                         text = stringResource(id = R.string.app_analysis_camera_button),
-                        onClick = viewModel::analyseImage
+                        onClick = viewModel::analyseImage,
+                        enabled = !viewState.value.isLoading
                     )
                 }
             }

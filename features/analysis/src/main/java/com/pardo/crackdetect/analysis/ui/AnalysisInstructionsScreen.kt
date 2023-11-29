@@ -35,7 +35,6 @@ fun AnalysisInstructionsScreen(
     navigator: AnalysisNavigator? = null
 ) {
     val cameraPermission = cameraPermissionState()
-    viewModel.navigator = navigator
 
     ScreenContainer(
         topBar = {

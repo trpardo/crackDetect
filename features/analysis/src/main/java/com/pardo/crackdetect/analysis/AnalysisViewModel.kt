@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pardo.crackdetct.data.analysis.AnalysisUseCase
 import com.pardo.crackdetct.data.analysis.models.CrackAnalysisDomainModel
-import com.pardo.crackdetect.analysis.nav.AnalysisDirections
 import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.core.network.Failure
 import com.pardo.crackdetect.core.network.fold
@@ -24,7 +23,6 @@ import javax.inject.Inject
 class AnalysisViewModel @Inject constructor(
     private val analysisUseCase: AnalysisUseCase
 ) : ViewModel() {
-    var navigator: AnalysisNavigator? = null
 
     private val _viewState: MutableStateFlow<AnalysisViewState> =
         MutableStateFlow(AnalysisViewState.Initial)
@@ -46,8 +44,8 @@ class AnalysisViewModel @Inject constructor(
     }
 
     private fun onAnalysisImageSuccess(response: CrackAnalysisDomainModel) {
-        _viewState.value = AnalysisViewState.ResultSuccess(form = viewState.value.form)
-        navigator?.openResult(popUpToRoute = AnalysisDirections.Analysis.route)
+        val updatedForm = viewState.value.form.copy(analysis = response)
+        _viewState.value = AnalysisViewState.ResultSuccess(form = updatedForm)
     }
 
     private fun onAnalysisImageFailure(error: Failure) {
@@ -69,12 +67,8 @@ private val placeHolderBitmap: Bitmap = BitmapFactory.decodeResource(
 
 data class AnalysisForm(
     val image: Bitmap = placeHolderBitmap,
-    private val analysis: CrackAnalysisDomainModel? = null
-) {
-    val type: String get() = analysis?.type ?: "Structural Cracks"
-    val severity: String get() = analysis?.type ?: "Severe"
-    val description: String get() = "The crack runs diagonally across the wall and through the building's architectural details, indicating a possible structural failure"
-}
+    val analysis: CrackAnalysisDomainModel = CrackAnalysisDomainModel()
+)
 
 sealed class AnalysisViewState(
     val form: AnalysisForm = AnalysisForm(),

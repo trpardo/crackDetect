@@ -1,26 +1,27 @@
 package com.pardo.crackdetect.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun ImageCaptured(
-    image: Bitmap,
-    paddingValues: PaddingValues
+    modifier: Modifier = Modifier,
+    image: ImageBitmap,
+    paddingValues: PaddingValues,
+    contentScale: ContentScale = ContentScale.FillWidth
 ) {
     Image(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .wrapContentSize()
             .padding(paddingValues),
-        bitmap = image.asImageBitmap(),
+        bitmap = image,
         contentDescription = "Captured image",
-        contentScale = ContentScale.FillWidth
+        contentScale = contentScale
     )
 }

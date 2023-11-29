@@ -26,14 +26,20 @@ data class Usage(
 @Serializable
 data class Choice(
     val message: Message,
-    @SerialName("finish_reason")
-    val finishReason: String?,
+    @SerialName("finish_details")
+    val finishDetails: FinishDetails,
     val index: Int
 )
 
 @Serializable
-data class CrackAnalysisDomainModel(
+data class FinishDetails(
     val type: String,
-    val severity: String,
-    val description: String
+    val stop: String
+)
+
+@Serializable
+data class CrackAnalysisDomainModel(
+    val type: String = "",
+    val severity: String = "",
+    val description: String = ""
 )

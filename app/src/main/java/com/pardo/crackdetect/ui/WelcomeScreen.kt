@@ -60,7 +60,7 @@ private fun WelcomeHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(CrackDetectTheme.Dimen.WelcomeHeaderPadding),
+            .padding(CrackDetectTheme.Dimen.ImageCircularPadding),
         contentAlignment = Alignment.Center
     ) {
         Image(
