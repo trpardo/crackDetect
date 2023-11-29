@@ -51,10 +51,9 @@ class AnalysisDataSourceImpl(
     )
 
     private suspend fun mapResponse(response: HttpResponse): CrackAnalysisDomainModel {
-        val toJSONCleaner: Regex = "[^a-zA-Z0-9 :{},\\[\\]\".'!?]".toRegex()
         return try {
             val jsonElement = Json.decodeFromString<OpenAiResponse>(response.body())
-            val content = jsonElement.choices.first().message.content.jsonPrimitive.content.replace(toJSONCleaner, "")
+            val content = jsonElement.choices.first().message.content.jsonPrimitive.content
             Json.decodeFromString<CrackAnalysisDomainModel>(content)
         } catch (e: Exception) {
             Log.d(AnalysisDataSource::class.java.simpleName, "Error parsing response: ${e.message}")

@@ -6,22 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 
 class NavigationUtils(private val sourceActivity: ComponentActivity) {
-    fun startActivity(
-        activityClass: Class<*>,
-        extras: Bundle? = null,
-        resultLauncher: ActivityResultLauncher<Intent>?
-    ) {
-        val intent = Intent(sourceActivity, activityClass)
-        this.putExtras(intent, extras)
-        this.startActivity(intent, resultLauncher)
-    }
-
-    fun startActivity(action: String, resultLauncher: ActivityResultLauncher<Intent>?) {
-        val intent = Intent().apply {
-            this.action = action
-        }
-        this.startActivity(intent, resultLauncher)
-    }
 
     fun startActivityClearingTask(
         activityClass: Class<*>,
@@ -31,21 +15,6 @@ class NavigationUtils(private val sourceActivity: ComponentActivity) {
         val intent = Intent(sourceActivity, activityClass)
         this.putExtras(intent, extras)
         this.startActivityClearingTask(intent, resultLauncher)
-    }
-
-    fun startActivityClearingTask(action: String, resultLauncher: ActivityResultLauncher<Intent>?) {
-        val intent = Intent().apply {
-            this.action = action
-        }
-        this.startActivityClearingTask(intent, resultLauncher)
-    }
-
-    private fun startActivity(intent: Intent, resultLauncher: ActivityResultLauncher<Intent>?) {
-        resultLauncher?.let {
-            resultLauncher.launch(intent)
-        } ?: kotlin.run {
-            sourceActivity.startActivity(intent)
-        }
     }
 
     private fun startActivityClearingTask(

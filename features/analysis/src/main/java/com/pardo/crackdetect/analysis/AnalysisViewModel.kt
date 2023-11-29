@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pardo.crackdetct.data.analysis.AnalysisUseCase
 import com.pardo.crackdetct.data.analysis.models.CrackAnalysisDomainModel
-import com.pardo.crackdetect.analysis.nav.AnalysisNavigator
 import com.pardo.crackdetect.core.network.Failure
 import com.pardo.crackdetect.core.network.fold
 import com.pardo.crackdetect.core.utils.State
@@ -45,7 +44,12 @@ class AnalysisViewModel @Inject constructor(
 
     private fun onAnalysisImageSuccess(response: CrackAnalysisDomainModel) {
         val updatedForm = viewState.value.form.copy(analysis = response)
-        _viewState.value = AnalysisViewState.ResultSuccess(form = updatedForm)
+
+        if (response.type.isNotEmpty()) {
+            _viewState.value = AnalysisViewState.ResultSuccess(form = updatedForm)
+        } else {
+            _viewState.value = AnalysisViewState.Error(form = updatedForm)
+        }
     }
 
     private fun onAnalysisImageFailure(error: Failure) {

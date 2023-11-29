@@ -34,6 +34,4 @@ sealed class Failure(val cause: String? = null) {
     class DataError(e: Exception) : Failure(e.cause?.message)
     class NetworkError(e: Exception) : Failure(e.cause?.message)
     class GenericError(e: Exception) : Failure(e.cause?.message)
-
-    object MaxTokensReached : Failure(MaxTokensReached::class.java.simpleName)
 }

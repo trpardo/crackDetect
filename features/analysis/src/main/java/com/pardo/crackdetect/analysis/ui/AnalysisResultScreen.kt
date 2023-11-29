@@ -39,7 +39,7 @@ fun AnalysisResultScreen(
 
     ScreenContainer(
         topBar = {
-            Toolbar.Nav(
+            Toolbar.Modal(
                 title = stringResource(id = R.string.app_analysis_result_toolbar),
                 onClick = { navigator?.navigateUp() }
             )

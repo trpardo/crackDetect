@@ -12,8 +12,6 @@ sealed class DestinationActivity(
 
 object Dashboard : DestinationActivity(null, null)
 
-const val DISPLAYABLE_EXTRA = "displayable_extra"
-
 interface NavigationBridge {
     fun open(
         dest: DestinationActivity,
